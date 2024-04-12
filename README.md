@@ -8,8 +8,8 @@
 
 ## Инструкции по запуску проекта
 1) Склонируйте репозиторий с проектом: git clone [https://github.com/S1ngle777/Lab_9_PHP.git](https://github.com/S1ngle777/Lab_9_PHP.git).
-2) Запустите веб-сервер: php -S localhost:8080.
-3) Откройте браузер и перейдите по адресу http://localhost:8080 для доступа к заданию.
+2) Запустите веб-сервер: php -S localhost:80.
+3) Откройте браузер и перейдите по адресу http://localhost для доступа к заданию.
 
 ## Задания
 __Задание 1.__ Создайте базу данных “event_platform”.
@@ -92,5 +92,95 @@ __Задание 8 (2 уровень сложности).__ Реализуйте
 
 ## Примеры использования
 
+```sql
+// Задание 2. Создание таблиц
+CREATE TABLE users (
+    id INT PRIMARY KEY,
+    name VARCHAR(255),
+    surname VARCHAR(255),
+    email VARCHAR(255) UNIQUE
+);
+
+CREATE TABLE events (
+    id INT PRIMARY KEY,
+    name VARCHAR(255),
+    price DECIMAL(10, 2),
+    number_seats INT,
+    date DATETIME
+);
+
+CREATE TABLE event_records (
+    id INT PRIMARY KEY,
+    user_id INT,
+    event_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (event_id) REFERENCES events(id)
+);
+
+CREATE TABLE roles (
+    id INT PRIMARY KEY,
+    name VARCHAR(255)
+);
+
+// Задание 3. Добавление поля role_id в таблицу users
+ALTER TABLE users ADD COLUMN role_id INT;
+ALTER TABLE users ADD FOREIGN KEY (role_id) REFERENCES roles(id);
+
+// Задание 8. Реализация системы аутентификации на основе токенов
+ALTER TABLE users ADD COLUMN token VARCHAR(255);
+```
+__Задание 4.__ Создайте четыре страницы:
+
+- Страница с текущими мероприятиями
+
+![image](https://github.com/S1ngle777/Lab_10_PHP/assets/128795707/4f4d9ed6-e68c-4007-9947-bcad6068fcb7)
+
+- Страница для записи на определенное мероприятие
+
+![image](https://github.com/S1ngle777/Lab_10_PHP/assets/128795707/7e8f7e93-b583-4814-9782-cc032771dc01)
+
+- Регистрация
+
+![image](https://github.com/S1ngle777/Lab_10_PHP/assets/128795707/3acdeec2-4163-47b3-8cab-29a88c96bbe4)
+
+
+- Авторизация
+
+![image](https://github.com/S1ngle777/Lab_10_PHP/assets/128795707/ee83fa9f-c1f9-46e0-aa78-7bfd8e8f2cc5)
+
+__Задание 5.__ Разработайте административную панель (доступную только пользователю с
+ID 'manager'), обладающую следующим функционалом:
+
+![image](https://github.com/S1ngle777/Lab_10_PHP/assets/128795707/6c0a5324-c28d-49fa-b0f0-09c719d69d8e)
+
+- Добавление и изменение мероприятия
+
+![image](https://github.com/S1ngle777/Lab_10_PHP/assets/128795707/629fc930-6c79-45ee-b422-754f4f5bf6d9)
+![image](https://github.com/S1ngle777/Lab_10_PHP/assets/128795707/0819532d-95b5-45e1-adf8-7b99588358ee)
+
+
+- Просмотр зарегистрированных на мероприятие.
+
+![image](https://github.com/S1ngle777/Lab_10_PHP/assets/128795707/e041c4ed-596b-43ae-a45d-229eeaea8859)
+
+__Задание 8 (2 уровень сложности).__ Реализуйте систему аутентификации на основе
+токенов. 
+
+Пример:
+```php
+// Проверка, авторизован ли пользователь
+if (!isset($_COOKIE['token'])) {
+    // Перенаправление на страницу авторизации
+    header("Location: /autorisation.php");
+    exit;
+}
+
+```
+
 ## Список использованных источников
 
+https://www.php.net/manual/ru/book.pdo.php
+
+https://www.php.net/manual/ru/reserved.variables.cookies
+
+https://www.php.net/manual/ru/function.password-hash
